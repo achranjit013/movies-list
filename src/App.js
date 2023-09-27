@@ -10,7 +10,10 @@ function App() {
     setMovieList([...movieList, movie]);
   };
 
-  console.log(movieList);
+  const updateToMovieList = (filteredML) => {
+    setMovieList(filteredML);
+  };
+
   return (
     <div className="wrapper bg-dark text-warning min-vh-100">
       <div className="container">
@@ -31,7 +34,7 @@ function App() {
         {/* movies list / display */}
         {/* -> buttons */}
         {/* -> cards */}
-        <Display movieList={movieList} />
+        <Display movieList={movieList} updateToMovieList={updateToMovieList} />
       </div>
     </div>
   );

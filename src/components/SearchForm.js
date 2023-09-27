@@ -8,7 +8,6 @@ export const SearchForm = ({ addToMovieList }) => {
   const strRef = useRef("");
 
   const handleOnSubmit = async (e) => {
-    console.log(e);
     e.preventDefault();
 
     setMovie({});
@@ -18,8 +17,6 @@ export const SearchForm = ({ addToMovieList }) => {
 
     const data = await fetchMovie(str);
 
-    console.log(data);
-
     if (data.Response === "True") {
       setMovie(data);
     } else {
@@ -27,8 +24,11 @@ export const SearchForm = ({ addToMovieList }) => {
     }
   };
 
-  const func = (mood) => {
-    addToMovieList({ ...movie, mood });
+  const func = ({ mood }) => {
+    if (mood !== "delete") {
+      addToMovieList({ ...movie, mood });
+    }
+
     setMovie({});
   };
 
