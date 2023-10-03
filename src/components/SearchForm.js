@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { CustomCard } from "./CustomCard";
 import { fetchMovie } from "../utils/axiosHelper";
 
@@ -6,6 +6,53 @@ export const SearchForm = ({ addToMovieList }) => {
   const [movie, setMovie] = useState({});
   const [error, setError] = useState("");
   const strRef = useRef("");
+  // generate random char and show movie in the begining of the form loading
+  // It will run after the initial render and after every re-render unless you specify dependencies.
+  // It allows you to specify dependencies for the effect. If any of the dependencies change between renders, the effect function will run again. If you omit the dependency array, the effect runs after every render.
+  useEffect(() => {
+    const str = "QWERTYUIOPAASDFGHJKLZXCVBNNM1234567890";
+    const randomIndex = Math.floor(Math.random() * str.length);
+    const randomChar = str.charAt(randomIndex);
+
+    // const fetchRandomMovie = async (randomChar) => {
+    //   try {
+    //     const data = await fetchMovie(randomChar);
+    //     if (data.Response === "True") {
+    //       setMovie(data);
+    //       setError("");
+    //     } else {
+    //       // setError(data.Error);
+    //       setError("Sorry, there is no movie in the list to display!!!");
+    //       setMovie({});
+    //     }
+    //   } catch (error) {
+    //     console.error("Error fetching movie: ", error);
+    //     setError("An error occurred while fetching the movie!!!");
+    //     setMovie({});
+    //   }
+    // };
+
+    // fetchRandomMovie(randomChar);
+
+    // IIFE method ->pronounced as iffy
+    (async () => {
+      try {
+        const data = await fetchMovie(randomChar);
+        if (data.Response === "True") {
+          setMovie(data);
+          setError("");
+        } else {
+          // setError(data.Error);
+          setError("Sorry, there is no movie in the list to display!!!");
+          setMovie({});
+        }
+      } catch (error) {
+        console.error("Error fetching movie: ", error);
+        setError("An error occurred while fetching the movie!!!");
+        setMovie({});
+      }
+    })();
+  }, []);
 
   const handleOnSubmit = async (e) => {
     e.preventDefault();
@@ -29,6 +76,7 @@ export const SearchForm = ({ addToMovieList }) => {
       addToMovieList({ ...movie, mood });
     }
 
+    strRef.current.value = "";
     setMovie({});
   };
 

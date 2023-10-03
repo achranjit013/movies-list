@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./App.css";
 import { Display } from "./components/Display";
 import { SearchForm } from "./components/SearchForm";
@@ -7,7 +7,11 @@ function App() {
   const [movieList, setMovieList] = useState([]);
 
   const addToMovieList = (movie) => {
-    setMovieList([...movieList, movie]);
+    const updatedMovieList = movieList.filter(
+      (item) => item.imdbID !== movie.imdbID
+    );
+
+    setMovieList([...updatedMovieList, movie]);
   };
 
   const updateToMovieList = (filteredML) => {

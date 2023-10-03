@@ -4,6 +4,8 @@ import { CustomCard } from "./CustomCard";
 export const Display = ({ movieList, updateToMovieList }) => {
   const [newMovieList, setNewMovieList] = useState([]);
 
+  // It will run after the initial render and after every re-render unless you specify dependencies.
+  // It allows you to specify dependencies for the effect. If any of the dependencies change between renders, the effect function will run again. If you omit the dependency array, the effect runs after every render.
   useEffect(() => {
     setNewMovieList(movieList);
   }, [movieList]);
